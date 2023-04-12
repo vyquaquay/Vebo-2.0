@@ -369,6 +369,9 @@ public class vebo extends javax.swing.JFrame {
         Main_Panel.validate();
     }//GEN-LAST:event_Update_btnActionPerformed
 
+    /**
+     * @param evt
+     */
     private void ImgchooseBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImgchooseBtnActionPerformed
        JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter imageFilter = new FileNameExtensionFilter("Image","jpg","png");
@@ -382,14 +385,6 @@ public class vebo extends javax.swing.JFrame {
         imageIcon = new ImageIcon(image);
         imgLabel.setIcon(imageIcon);
         imgLabel.setText("");
-        BufferedImage img;
-           try {
-               img = ImageIO.read(f);
-           } catch (IOException ex) {
-               Logger.getLogger(vebo.class.getName()).log(Level.SEVERE, null, ex);
-           }
-        File outputfile = new File("image.jpg");
-        ImageIO.write(img, "jpg", outputfile);
         }
     }//GEN-LAST:event_ImgchooseBtnActionPerformed
 
@@ -420,7 +415,6 @@ public class vebo extends javax.swing.JFrame {
         writer.write(name);
         writer.write(age);
         writer.write(country);
-        writer.write(imageIcon);
         writer.close();
         }catch (IOException e){
             JOptionPane.showMessageDialog(null, "No COuntry input");
