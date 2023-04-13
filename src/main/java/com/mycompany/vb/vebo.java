@@ -8,13 +8,18 @@ import java.awt.CardLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -69,7 +74,15 @@ public class vebo extends javax.swing.JFrame {
         Number_label = new javax.swing.JLabel();
         P_Number = new javax.swing.JTextField();
         Infor_Panel = new javax.swing.JPanel();
+        ChooseFile = new javax.swing.JButton();
+        D_Name = new javax.swing.JTextField();
+        D_Age = new javax.swing.JTextField();
+        D_Country = new javax.swing.JTextField();
+        D_Number = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         Delete_Panel = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         Update_Panel = new javax.swing.JPanel();
@@ -247,24 +260,78 @@ public class vebo extends javax.swing.JFrame {
 
         Infor_Panel.setBackground(new java.awt.Color(0, 0, 204));
 
+        ChooseFile.setText("Choose file");
+        ChooseFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChooseFileActionPerformed(evt);
+            }
+        });
+
+        D_Name.setText("jTextField1");
+
+        D_Age.setText("jTextField2");
+
+        D_Country.setText("jTextField3");
+
+        D_Number.setText("jTextField4");
+
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Name");
+
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("jLabel2");
+        jLabel2.setText("Age");
+
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Country");
+
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Number");
 
         javax.swing.GroupLayout Infor_PanelLayout = new javax.swing.GroupLayout(Infor_Panel);
         Infor_Panel.setLayout(Infor_PanelLayout);
         Infor_PanelLayout.setHorizontalGroup(
             Infor_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Infor_PanelLayout.createSequentialGroup()
-                .addGap(254, 254, 254)
-                .addComponent(jLabel2)
-                .addContainerGap(372, Short.MAX_VALUE))
+                .addGap(16, 16, 16)
+                .addGroup(Infor_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(Infor_PanelLayout.createSequentialGroup()
+                        .addComponent(ChooseFile)
+                        .addContainerGap())
+                    .addGroup(Infor_PanelLayout.createSequentialGroup()
+                        .addGroup(Infor_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(D_Name, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addGap(71, 71, 71)
+                        .addGroup(Infor_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(D_Age, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(80, 80, 80)
+                        .addGroup(Infor_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(D_Country, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
+                        .addGroup(Infor_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addComponent(D_Number, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
         Infor_PanelLayout.setVerticalGroup(
             Infor_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(Infor_PanelLayout.createSequentialGroup()
-                .addGap(103, 103, 103)
-                .addComponent(jLabel2)
-                .addContainerGap(197, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Infor_PanelLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(ChooseFile)
+                .addGap(55, 55, 55)
+                .addGroup(Infor_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(Infor_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(D_Name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(D_Age, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(D_Country, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(D_Number, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(159, Short.MAX_VALUE))
         );
 
         Main_Panel.add(Infor_Panel, "card3");
@@ -424,17 +491,10 @@ public class vebo extends javax.swing.JFrame {
             //FileOutputStream out = new FileOutputStream(name +".txt");
             oos.writeObject(player);
             oos.close();
-
-//             Reading from file
-//            FileInputStream in = new FileInputStream("output.txt");
-//            int c;
-//            while ((c = in.read()) != -1) {
-//                System.out.print((char) c);
-//            }
-            //in.close();
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Some error happend.");
         }
+        
         
     }//GEN-LAST:event_Save_btnActionPerformed
         
@@ -442,7 +502,7 @@ public class vebo extends javax.swing.JFrame {
         try{
         name = nameInput.getText();
         } catch (Exception e){
-            JOptionPane.showMessageDialog(null, "No COuntry input");
+            JOptionPane.showMessageDialog(null, "No Name input");
         }
     }//GEN-LAST:event_nameInputActionPerformed
 
@@ -450,7 +510,7 @@ public class vebo extends javax.swing.JFrame {
        try{
         country = Country_Input.getText();
         } catch (Exception e){
-            JOptionPane.showMessageDialog(null, "No COuntry input");
+            JOptionPane.showMessageDialog(null, "No Country input");
         }
     }//GEN-LAST:event_Country_InputActionPerformed
 
@@ -458,9 +518,44 @@ public class vebo extends javax.swing.JFrame {
         try{
             Pl_Number = Integer.parseInt(P_Number.getText());
         } catch (NumberFormatException e){
-            JOptionPane.showMessageDialog(null, "No COuntry input");
+            JOptionPane.showMessageDialog(null, "Only Accept Number");
         }
     }//GEN-LAST:event_P_NumberActionPerformed
+
+    /**
+     * @param evt
+     */
+    private void ChooseFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChooseFileActionPerformed
+        
+        JFileChooser Chooser_btn = new JFileChooser();
+        Chooser_btn.setCurrentDirectory(new File("user/"));
+        int res = Chooser_btn.showOpenDialog(null);
+        ArrayList<Player> playered =  new ArrayList<Player>();
+        if(res == JFileChooser.APPROVE_OPTION){
+            try {
+                File file = new File(Chooser_btn.getSelectedFile().getAbsolutePath());
+                FileInputStream in = new FileInputStream(file);
+                ObjectInputStream inputFile = new ObjectInputStream(in);
+                boolean endOFfile = false;
+                while(!endOFfile){
+                    try{
+                        playered.add((Player) inputFile.readObject());
+                    }catch (EOFException e){
+                        endOFfile = true;
+                    }catch (Exception f) {
+                        JOptionPane.showMessageDialog(null, "Some error happend");
+                    }
+                }
+                inputFile.close();
+               }catch (IOException e){
+                   JOptionPane.showMessageDialog(null, "No file found");
+               }
+            }
+            D_Name.setText(playered.get(0).getName());
+            D_Age.setText(playered.get(0).getAge());
+            D_Country.setText(playered.get(0).getCountry());
+            D_Number.setText(String.valueOf(playered.get(0).getPl_Number()));
+    }//GEN-LAST:event_ChooseFileActionPerformed
 
     /**
      * @param args the command line arguments
@@ -501,7 +596,12 @@ public class vebo extends javax.swing.JFrame {
     private javax.swing.JPanel Add_Panel;
     private javax.swing.JButton Add_btn;
     private javax.swing.JPanel Button_Panel;
+    private javax.swing.JButton ChooseFile;
     private javax.swing.JTextField Country_Input;
+    private javax.swing.JTextField D_Age;
+    private javax.swing.JTextField D_Country;
+    private javax.swing.JTextField D_Name;
+    private javax.swing.JTextField D_Number;
     private javax.swing.JPanel Delete_Panel;
     private javax.swing.JButton Delete_btn;
     private javax.swing.JPanel Home_Panel;
@@ -518,11 +618,14 @@ public class vebo extends javax.swing.JFrame {
     private javax.swing.JPanel Update_Panel;
     private javax.swing.JButton Update_btn;
     private com.toedter.calendar.JDateChooser jDateChooser1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JTextField nameInput;
     // End of variables declaration//GEN-END:variables
 }
