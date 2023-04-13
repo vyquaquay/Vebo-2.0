@@ -9,8 +9,11 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,6 +35,8 @@ public class vebo extends javax.swing.JFrame {
      String age;
      String name;
      ImageIcon imageIcon;
+     String country;
+     int Pl_Number;
     public vebo() {
         initComponents();
     }
@@ -58,11 +63,11 @@ public class vebo extends javax.swing.JFrame {
         nameInput = new javax.swing.JTextField();
         PlayerAgeLabel = new javax.swing.JLabel();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        imgLabel = new javax.swing.JLabel();
-        ImgchooseBtn = new javax.swing.JButton();
         PlayerCountryLabel = new javax.swing.JLabel();
         Country_Input = new javax.swing.JTextField();
         Save_btn = new javax.swing.JButton();
+        Number_label = new javax.swing.JLabel();
+        P_Number = new javax.swing.JTextField();
         Infor_Panel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         Delete_Panel = new javax.swing.JPanel();
@@ -153,32 +158,39 @@ public class vebo extends javax.swing.JFrame {
         PlayerNameLabel.setForeground(new java.awt.Color(255, 255, 255));
         PlayerNameLabel.setText("Name");
 
-        nameInput.setText("Input Name");
+        nameInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nameInputActionPerformed(evt);
+            }
+        });
 
         PlayerAgeLabel.setForeground(new java.awt.Color(255, 255, 255));
         PlayerAgeLabel.setText("Age");
 
         jDateChooser1.setDateFormatString("dd-MM-yyyy");
 
-        imgLabel.setForeground(new java.awt.Color(255, 255, 255));
-        imgLabel.setText("Image");
-
-        ImgchooseBtn.setText("Browse Img");
-        ImgchooseBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ImgchooseBtnActionPerformed(evt);
-            }
-        });
-
         PlayerCountryLabel.setForeground(new java.awt.Color(255, 255, 255));
         PlayerCountryLabel.setText("Country");
 
-        Country_Input.setText("Country");
+        Country_Input.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Country_InputActionPerformed(evt);
+            }
+        });
 
         Save_btn.setText("Save");
         Save_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Save_btnActionPerformed(evt);
+            }
+        });
+
+        Number_label.setForeground(new java.awt.Color(255, 255, 255));
+        Number_label.setText("Number");
+
+        P_Number.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                P_NumberActionPerformed(evt);
             }
         });
 
@@ -188,56 +200,47 @@ public class vebo extends javax.swing.JFrame {
             Add_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Add_PanelLayout.createSequentialGroup()
                 .addGap(27, 27, 27)
+                .addGroup(Add_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(PlayerAgeLabel, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(PlayerNameLabel, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(nameInput, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE))
                 .addGroup(Add_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(Add_PanelLayout.createSequentialGroup()
-                        .addComponent(PlayerCountryLabel)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 301, Short.MAX_VALUE)
+                        .addComponent(Save_btn)
+                        .addGap(106, 106, 106))
                     .addGroup(Add_PanelLayout.createSequentialGroup()
-                        .addGroup(Add_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(Country_Input)
-                            .addComponent(PlayerAgeLabel, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(PlayerNameLabel, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nameInput, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 272, Short.MAX_VALUE)
-                        .addGroup(Add_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Add_PanelLayout.createSequentialGroup()
-                                .addComponent(ImgchooseBtn)
-                                .addGap(115, 115, 115))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Add_PanelLayout.createSequentialGroup()
-                                .addGroup(Add_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(Save_btn)
-                                    .addComponent(imgLabel))
-                                .addGap(106, 106, 106))))))
+                        .addGap(209, 209, 209)
+                        .addGroup(Add_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(PlayerCountryLabel)
+                            .addComponent(Country_Input, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
+                            .addComponent(Number_label)
+                            .addComponent(P_Number))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         Add_PanelLayout.setVerticalGroup(
             Add_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Add_PanelLayout.createSequentialGroup()
                 .addGap(50, 50, 50)
-                .addComponent(PlayerNameLabel)
-                .addGroup(Add_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(Add_PanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(nameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(Add_PanelLayout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(imgLabel)))
+                .addGroup(Add_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(PlayerNameLabel)
+                    .addComponent(PlayerCountryLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(Add_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Country_Input, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(PlayerAgeLabel)
+                .addGroup(Add_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(PlayerAgeLabel)
+                    .addComponent(Number_label))
                 .addGap(18, 18, 18)
                 .addGroup(Add_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ImgchooseBtn))
-                .addGap(28, 28, 28)
-                .addComponent(PlayerCountryLabel)
-                .addGroup(Add_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(Add_PanelLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(Country_Input, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(Add_PanelLayout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(Save_btn)))
-                .addContainerGap(57, Short.MAX_VALUE))
+                    .addComponent(P_Number, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(50, 50, 50)
+                .addComponent(Save_btn)
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         Main_Panel.add(Add_Panel, "card4");
@@ -369,25 +372,6 @@ public class vebo extends javax.swing.JFrame {
         Main_Panel.validate();
     }//GEN-LAST:event_Update_btnActionPerformed
 
-    /**
-     * @param evt
-     */
-    private void ImgchooseBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImgchooseBtnActionPerformed
-       JFileChooser fileChooser = new JFileChooser();
-        FileNameExtensionFilter imageFilter = new FileNameExtensionFilter("Image","jpg","png");
-        fileChooser.setFileFilter(imageFilter);
-        fileChooser.setMultiSelectionEnabled(false);
-        int x = fileChooser.showDialog(this, "choose your file");
-        if (x == JFileChooser.APPROVE_OPTION){
-        File f = fileChooser.getSelectedFile();
-        imageIcon = new ImageIcon(f.getAbsolutePath());
-        Image image = imageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-        imageIcon = new ImageIcon(image);
-        imgLabel.setIcon(imageIcon);
-        imgLabel.setText("");
-        }
-    }//GEN-LAST:event_ImgchooseBtnActionPerformed
-
     private void Home_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Home_btnActionPerformed
         Main_Panel.removeAll();
         Main_Panel.add(Home_Panel);
@@ -396,30 +380,87 @@ public class vebo extends javax.swing.JFrame {
     }//GEN-LAST:event_Home_btnActionPerformed
 
     private void Save_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Save_btnActionPerformed
+
+        String name="";
+        String age="";
+        String country="";
+        int pl_Number=0;
+        try{
+        name = nameInput.getText().trim();
+        if(name.isEmpty()){
+            throw new Exception();}
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(null, "No name input");
+            return;
+        }
         try{
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         age = dateFormat.format(jDateChooser1.getDate());
         }
         catch(Exception ex){
             JOptionPane.showMessageDialog(null, "No date selected");
+            return;
         }
+        try{
+        country = Country_Input.getText().trim();
+        if(country.isEmpty()){
+            throw new Exception();
+        }
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(null, "No country input");
+            return;
+        }
+         try{
+            pl_Number = Integer.parseInt(P_Number.getText());
+        } catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(null, "Only accept number input");
+            return;
+        }
+        Player player = new Player( age, name, country, pl_Number); 
+        try {
+            // Writing to file
+           FileOutputStream out = new FileOutputStream("user/"+name+".txt");
+           ObjectOutputStream oos = new ObjectOutputStream(out);
+            //FileOutputStream out = new FileOutputStream(name +".txt");
+            oos.writeObject(player);
+            oos.close();
 
+//             Reading from file
+//            FileInputStream in = new FileInputStream("output.txt");
+//            int c;
+//            while ((c = in.read()) != -1) {
+//                System.out.print((char) c);
+//            }
+            //in.close();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Some error happend.");
+        }
         
+    }//GEN-LAST:event_Save_btnActionPerformed
+        
+    private void nameInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameInputActionPerformed
         try{
         name = nameInput.getText();
-        String country = Country_Input.getText();
-        String fileName = name;
-        File file = new File(fileName);
-        file.createNewFile() ;
-        FileWriter writer = new FileWriter(fileName + ".SIUUU");
-        writer.write(name);
-        writer.write(age);
-        writer.write(country);
-        writer.close();
-        }catch (IOException e){
+        } catch (Exception e){
             JOptionPane.showMessageDialog(null, "No COuntry input");
         }
-    }//GEN-LAST:event_Save_btnActionPerformed
+    }//GEN-LAST:event_nameInputActionPerformed
+
+    private void Country_InputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Country_InputActionPerformed
+       try{
+        country = Country_Input.getText();
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(null, "No COuntry input");
+        }
+    }//GEN-LAST:event_Country_InputActionPerformed
+
+    private void P_NumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_P_NumberActionPerformed
+        try{
+            Pl_Number = Integer.parseInt(P_Number.getText());
+        } catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(null, "No COuntry input");
+        }
+    }//GEN-LAST:event_P_NumberActionPerformed
 
     /**
      * @param args the command line arguments
@@ -465,17 +506,17 @@ public class vebo extends javax.swing.JFrame {
     private javax.swing.JButton Delete_btn;
     private javax.swing.JPanel Home_Panel;
     private javax.swing.JButton Home_btn;
-    private javax.swing.JButton ImgchooseBtn;
     private javax.swing.JPanel Infor_Panel;
     private javax.swing.JButton Infor_btn;
     private javax.swing.JPanel Main_Panel;
+    private javax.swing.JLabel Number_label;
+    private javax.swing.JTextField P_Number;
     private javax.swing.JLabel PlayerAgeLabel;
     private javax.swing.JLabel PlayerCountryLabel;
     private javax.swing.JLabel PlayerNameLabel;
     private javax.swing.JButton Save_btn;
     private javax.swing.JPanel Update_Panel;
     private javax.swing.JButton Update_btn;
-    private javax.swing.JLabel imgLabel;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
