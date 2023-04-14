@@ -7,6 +7,7 @@ package com.mycompany.vb;
 import java.awt.CardLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.EOFException;
 import java.io.File;
@@ -23,6 +24,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -39,11 +42,40 @@ public class vebo extends javax.swing.JFrame {
      */
      String age;
      String name;
-     ImageIcon imageIcon;
      String country;
      int Pl_Number;
+     ArrayList<Player> players = new ArrayList<Player>();
+
     public vebo() {
         initComponents();
+        ArrayList<Player> playered =  new ArrayList<Player>();
+        try {
+            File file = new File("Player.txt");
+            FileInputStream in = new FileInputStream(file);
+            ObjectInputStream inputFile = new ObjectInputStream(in);
+            boolean endOFfile = false;
+            while(!endOFfile){
+                try{
+                    playered.add((Player) inputFile.readObject());
+                }catch (EOFException e){
+                    endOFfile = true;
+                }catch (Exception f) {
+                    JOptionPane.showMessageDialog(null, "Some error happend");
+                }
+            }
+            inputFile.close();
+           }catch (IOException e){
+               JOptionPane.showMessageDialog(null, "No file found");
+           }
+        String[] playerArray = new String[playered.size()];
+        for(int i = 0; i<playered.size(); i++){
+            
+            playerArray[i] = playered.get(i).getName();
+        }
+        Choose_Player_Box.setModel(new javax.swing.DefaultComboBoxModel<>(playerArray) {
+            
+        });;
+
     }
 
     /**
@@ -74,7 +106,6 @@ public class vebo extends javax.swing.JFrame {
         Number_label = new javax.swing.JLabel();
         P_Number = new javax.swing.JTextField();
         Infor_Panel = new javax.swing.JPanel();
-        ChooseFile = new javax.swing.JButton();
         D_Name = new javax.swing.JTextField();
         D_Age = new javax.swing.JTextField();
         D_Country = new javax.swing.JTextField();
@@ -83,6 +114,9 @@ public class vebo extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        Choose_Player_Box = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
+        Delete = new javax.swing.JButton();
         Delete_Panel = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         Update_Panel = new javax.swing.JPanel();
@@ -260,21 +294,6 @@ public class vebo extends javax.swing.JFrame {
 
         Infor_Panel.setBackground(new java.awt.Color(0, 0, 204));
 
-        ChooseFile.setText("Choose file");
-        ChooseFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ChooseFileActionPerformed(evt);
-            }
-        });
-
-        D_Name.setText("jTextField1");
-
-        D_Age.setText("jTextField2");
-
-        D_Country.setText("jTextField3");
-
-        D_Number.setText("jTextField4");
-
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Name");
 
@@ -287,16 +306,36 @@ public class vebo extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Number");
 
+        Choose_Player_Box.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        Choose_Player_Box.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Choose_Player_BoxActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Update");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        Delete.setText("jButton2");
+
         javax.swing.GroupLayout Infor_PanelLayout = new javax.swing.GroupLayout(Infor_Panel);
         Infor_Panel.setLayout(Infor_PanelLayout);
         Infor_PanelLayout.setHorizontalGroup(
             Infor_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Infor_PanelLayout.createSequentialGroup()
+                .addGap(149, 149, 149)
+                .addComponent(jButton1)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(Infor_PanelLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(Infor_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(Infor_PanelLayout.createSequentialGroup()
-                        .addComponent(ChooseFile)
-                        .addContainerGap())
+                        .addComponent(Choose_Player_Box, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(Infor_PanelLayout.createSequentialGroup()
                         .addGroup(Infor_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(D_Name, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -308,7 +347,8 @@ public class vebo extends javax.swing.JFrame {
                         .addGap(80, 80, 80)
                         .addGroup(Infor_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(D_Country, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6))
+                            .addComponent(jLabel6)
+                            .addComponent(Delete))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
                         .addGroup(Infor_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
@@ -317,9 +357,9 @@ public class vebo extends javax.swing.JFrame {
         Infor_PanelLayout.setVerticalGroup(
             Infor_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Infor_PanelLayout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(ChooseFile)
-                .addGap(55, 55, 55)
+                .addGap(49, 49, 49)
+                .addComponent(Choose_Player_Box, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42)
                 .addGroup(Infor_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
@@ -331,7 +371,11 @@ public class vebo extends javax.swing.JFrame {
                     .addComponent(D_Age, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(D_Country, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(D_Number, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(159, Short.MAX_VALUE))
+                .addGap(64, 64, 64)
+                .addGroup(Infor_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(Delete))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
 
         Main_Panel.add(Infor_Panel, "card3");
@@ -484,16 +528,21 @@ public class vebo extends javax.swing.JFrame {
             return;
         }
         Player player = new Player( age, name, country, pl_Number); 
+        players.add(player);
         try {
             // Writing to file
-           FileOutputStream out = new FileOutputStream("user/"+name+".txt");
-           ObjectOutputStream oos = new ObjectOutputStream(out);
-            //FileOutputStream out = new FileOutputStream(name +".txt");
-            oos.writeObject(player);
+            FileOutputStream out = new FileOutputStream("Player.txt");
+            ObjectOutputStream oos = new ObjectOutputStream(out);
+            for(int i =0; i<players.size(); i++){
+                oos.writeObject(players.get(i));
+            }    
             oos.close();
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Some error happend.");
+            JOptionPane.showMessageDialog(null, "Some error happened.");
         }
+        
+        
+
         
         
     }//GEN-LAST:event_Save_btnActionPerformed
@@ -522,40 +571,47 @@ public class vebo extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_P_NumberActionPerformed
 
-    /**
-     * @param evt
-     */
-    private void ChooseFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChooseFileActionPerformed
-        
-        JFileChooser Chooser_btn = new JFileChooser();
-        Chooser_btn.setCurrentDirectory(new File("user/"));
-        int res = Chooser_btn.showOpenDialog(null);
+    private void Choose_Player_BoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Choose_Player_BoxActionPerformed
         ArrayList<Player> playered =  new ArrayList<Player>();
-        if(res == JFileChooser.APPROVE_OPTION){
-            try {
-                File file = new File(Chooser_btn.getSelectedFile().getAbsolutePath());
-                FileInputStream in = new FileInputStream(file);
-                ObjectInputStream inputFile = new ObjectInputStream(in);
-                boolean endOFfile = false;
-                while(!endOFfile){
-                    try{
-                        playered.add((Player) inputFile.readObject());
-                    }catch (EOFException e){
-                        endOFfile = true;
-                    }catch (Exception f) {
-                        JOptionPane.showMessageDialog(null, "Some error happend");
-                    }
-                }
-                inputFile.close();
-               }catch (IOException e){
-                   JOptionPane.showMessageDialog(null, "No file found");
-               }
-            }
-            D_Name.setText(playered.get(0).getName());
-            D_Age.setText(playered.get(0).getAge());
-            D_Country.setText(playered.get(0).getCountry());
-            D_Number.setText(String.valueOf(playered.get(0).getPl_Number()));
-    }//GEN-LAST:event_ChooseFileActionPerformed
+try {
+    FileInputStream in = new FileInputStream("Player.txt");
+    ObjectInputStream inputFile = new ObjectInputStream(in);
+    boolean endOFfile = false;
+    while(!endOFfile){
+        try{
+            playered.add((Player) inputFile.readObject());
+        }catch (EOFException e){
+            endOFfile = true;
+        }catch (Exception f) {
+            JOptionPane.showMessageDialog(null, "Some error happend");
+        }
+    }
+    inputFile.close();
+}catch (IOException e){
+    JOptionPane.showMessageDialog(null, "No file found");
+}
+
+String[] playerArray = new String[playered.size()];
+for(int i = 0; i < playered.size(); i++){
+    playerArray[i] = playered.get(i).getName();
+}
+Choose_Player_Box.setModel(new DefaultComboBoxModel<>(playerArray));
+Choose_Player_Box.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent e) {
+        int selectedIndex = Choose_Player_Box.getSelectedIndex();
+        Player selectedPlayer = playered.get(selectedIndex);
+        D_Name.setText(selectedPlayer.getName());
+        D_Age.setText(selectedPlayer.getAge());
+        D_Country.setText(selectedPlayer.getCountry());
+        D_Number.setText(String.valueOf(selectedPlayer.getPl_Number()));
+    }
+});
+
+    }//GEN-LAST:event_Choose_Player_BoxActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -596,12 +652,13 @@ public class vebo extends javax.swing.JFrame {
     private javax.swing.JPanel Add_Panel;
     private javax.swing.JButton Add_btn;
     private javax.swing.JPanel Button_Panel;
-    private javax.swing.JButton ChooseFile;
+    private javax.swing.JComboBox<String> Choose_Player_Box;
     private javax.swing.JTextField Country_Input;
     private javax.swing.JTextField D_Age;
     private javax.swing.JTextField D_Country;
     private javax.swing.JTextField D_Name;
     private javax.swing.JTextField D_Number;
+    private javax.swing.JButton Delete;
     private javax.swing.JPanel Delete_Panel;
     private javax.swing.JButton Delete_btn;
     private javax.swing.JPanel Home_Panel;
@@ -617,6 +674,7 @@ public class vebo extends javax.swing.JFrame {
     private javax.swing.JButton Save_btn;
     private javax.swing.JPanel Update_Panel;
     private javax.swing.JButton Update_btn;
+    private javax.swing.JButton jButton1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
