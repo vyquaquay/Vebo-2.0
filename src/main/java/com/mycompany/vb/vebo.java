@@ -48,33 +48,15 @@ public class vebo extends javax.swing.JFrame {
 
     public vebo() {
         initComponents();
-        ArrayList<Player> playered =  new ArrayList<Player>();
-        try {
-            File file = new File("Player.txt");
-            FileInputStream in = new FileInputStream(file);
-            ObjectInputStream inputFile = new ObjectInputStream(in);
-            boolean endOFfile = false;
-            while(!endOFfile){
-                try{
-                    playered.add((Player) inputFile.readObject());
-                }catch (EOFException e){
-                    endOFfile = true;
-                }catch (Exception f) {
-                    JOptionPane.showMessageDialog(null, "Some error happend");
-                }
-            }
-            inputFile.close();
-           }catch (IOException e){
-               JOptionPane.showMessageDialog(null, "No file found");
-           }
-        String[] playerArray = new String[playered.size()];
-        for(int i = 0; i<playered.size(); i++){
-            
-            playerArray[i] = playered.get(i).getName();
+        try{
+            FileInputStream fis = new FileInputStream("Player.txt");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            players = (ArrayList<Player>) ois.readObject();
+            ois.close(); 
+        }catch (Exception f){
+            JOptionPane.showMessageDialog(null, "Some error happened when open the file.");
         }
-        Choose_Player_Box.setModel(new javax.swing.DefaultComboBoxModel<>(playerArray) {
-            
-        });;
+       
 
     }
 
@@ -90,8 +72,6 @@ public class vebo extends javax.swing.JFrame {
         Button_Panel = new javax.swing.JPanel();
         Add_btn = new javax.swing.JButton();
         Infor_btn = new javax.swing.JButton();
-        Delete_btn = new javax.swing.JButton();
-        Update_btn = new javax.swing.JButton();
         Home_btn = new javax.swing.JButton();
         Main_Panel = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -115,7 +95,7 @@ public class vebo extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         Choose_Player_Box = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        update_btn = new javax.swing.JButton();
         Delete = new javax.swing.JButton();
         Delete_Panel = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -142,20 +122,6 @@ public class vebo extends javax.swing.JFrame {
             }
         });
 
-        Delete_btn.setText("Delete");
-        Delete_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Delete_btnActionPerformed(evt);
-            }
-        });
-
-        Update_btn.setText("Update");
-        Update_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Update_btnActionPerformed(evt);
-            }
-        });
-
         Home_btn.setText("Home");
         Home_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -168,15 +134,11 @@ public class vebo extends javax.swing.JFrame {
         Button_PanelLayout.setHorizontalGroup(
             Button_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Button_PanelLayout.createSequentialGroup()
-                .addComponent(Add_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addComponent(Infor_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
-                .addComponent(Home_btn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
-                .addComponent(Delete_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(Update_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(Add_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 131, Short.MAX_VALUE)
+                .addComponent(Home_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(118, 118, 118)
+                .addComponent(Infor_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         Button_PanelLayout.setVerticalGroup(
             Button_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -185,8 +147,6 @@ public class vebo extends javax.swing.JFrame {
                 .addGroup(Button_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Add_btn)
                     .addComponent(Infor_btn)
-                    .addComponent(Delete_btn)
-                    .addComponent(Update_btn)
                     .addComponent(Home_btn))
                 .addGap(36, 36, 36))
         );
@@ -313,14 +273,19 @@ public class vebo extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Update");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        update_btn.setText("Update");
+        update_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                update_btnActionPerformed(evt);
             }
         });
 
-        Delete.setText("jButton2");
+        Delete.setText("Delete");
+        Delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DeleteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout Infor_PanelLayout = new javax.swing.GroupLayout(Infor_Panel);
         Infor_Panel.setLayout(Infor_PanelLayout);
@@ -328,7 +293,7 @@ public class vebo extends javax.swing.JFrame {
             Infor_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Infor_PanelLayout.createSequentialGroup()
                 .addGap(149, 149, 149)
-                .addComponent(jButton1)
+                .addComponent(update_btn)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(Infor_PanelLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
@@ -373,7 +338,7 @@ public class vebo extends javax.swing.JFrame {
                     .addComponent(D_Number, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(64, 64, 64)
                 .addGroup(Infor_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(update_btn)
                     .addComponent(Delete))
                 .addContainerGap(72, Short.MAX_VALUE))
         );
@@ -460,6 +425,22 @@ public class vebo extends javax.swing.JFrame {
         Main_Panel.add(Infor_Panel);
         Main_Panel.repaint();
         Main_Panel.validate();
+         try{
+            FileInputStream fis = new FileInputStream("Player.txt");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            players = (ArrayList<Player>) ois.readObject();
+            ois.close(); 
+        }catch (Exception f){
+            JOptionPane.showMessageDialog(null, "Some error happened when open the file.");
+        }
+        String[] playerArray = new String[players.size()];
+        for(int i = 0; i<players.size(); i++){
+            
+            playerArray[i] = players.get(i).getName();
+        }
+        Choose_Player_Box.setModel(new javax.swing.DefaultComboBoxModel<>(playerArray) {
+            
+        });;
     }//GEN-LAST:event_Infor_btnActionPerformed
 
     private void Add_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Add_btnActionPerformed
@@ -467,6 +448,7 @@ public class vebo extends javax.swing.JFrame {
         Main_Panel.add(Add_Panel);
         Main_Panel.repaint();
         Main_Panel.validate();
+        
     }//GEN-LAST:event_Add_btnActionPerformed
 
     private void Delete_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Delete_btnActionPerformed
@@ -533,10 +515,11 @@ public class vebo extends javax.swing.JFrame {
             // Writing to file
             FileOutputStream out = new FileOutputStream("Player.txt");
             ObjectOutputStream oos = new ObjectOutputStream(out);
-            for(int i =0; i<players.size(); i++){
-                oos.writeObject(players.get(i));
-            }    
+ 
+                oos.writeObject(players);
+       
             oos.close();
+            JOptionPane.showMessageDialog(null, "Added success.");
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Some error happened.");
         }
@@ -572,34 +555,32 @@ public class vebo extends javax.swing.JFrame {
     }//GEN-LAST:event_P_NumberActionPerformed
 
     private void Choose_Player_BoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Choose_Player_BoxActionPerformed
-        ArrayList<Player> playered =  new ArrayList<Player>();
-try {
-    FileInputStream in = new FileInputStream("Player.txt");
-    ObjectInputStream inputFile = new ObjectInputStream(in);
-    boolean endOFfile = false;
-    while(!endOFfile){
         try{
-            playered.add((Player) inputFile.readObject());
-        }catch (EOFException e){
-            endOFfile = true;
-        }catch (Exception f) {
-            JOptionPane.showMessageDialog(null, "Some error happend");
+            FileInputStream fis = new FileInputStream("Player.txt");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            players = (ArrayList<Player>) ois.readObject();
+            ois.close(); 
+        }catch (Exception f){
+            JOptionPane.showMessageDialog(null, "Some error happened when open the file.");
         }
-    }
-    inputFile.close();
-}catch (IOException e){
-    JOptionPane.showMessageDialog(null, "No file found");
-}
+        String[] playerArray = new String[players.size()];
+        for(int i = 0; i<players.size(); i++){
+            
+            playerArray[i] = players.get(i).getName();
+        }
+        // Choose_Player_Box.setModel(new javax.swing.DefaultComboBoxModel<>(playerArray) {
+            
+        // });;
 
-String[] playerArray = new String[playered.size()];
-for(int i = 0; i < playered.size(); i++){
-    playerArray[i] = playered.get(i).getName();
+ playerArray = new String[players.size()];
+for(int i = 0; i < players.size(); i++){
+    playerArray[i] = players.get(i).getName();
 }
-Choose_Player_Box.setModel(new DefaultComboBoxModel<>(playerArray));
+// Choose_Player_Box.setModel(new DefaultComboBoxModel<>(playerArray));
 Choose_Player_Box.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
         int selectedIndex = Choose_Player_Box.getSelectedIndex();
-        Player selectedPlayer = playered.get(selectedIndex);
+        Player selectedPlayer = players.get(selectedIndex);
         D_Name.setText(selectedPlayer.getName());
         D_Age.setText(selectedPlayer.getAge());
         D_Country.setText(selectedPlayer.getCountry());
@@ -609,9 +590,57 @@ Choose_Player_Box.addActionListener(new ActionListener() {
 
     }//GEN-LAST:event_Choose_Player_BoxActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void update_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update_btnActionPerformed
+        int selectedIndex = Choose_Player_Box.getSelectedIndex();
+    Player selectedPlayer = players.get(selectedIndex);
+    selectedPlayer.setName(D_Name.getText());
+    selectedPlayer.setAge(D_Age.getText());
+    selectedPlayer.setCountry(D_Country.getText());
+    selectedPlayer.setPl_Number(Integer.parseInt(D_Number.getText()));
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    try {
+        // Writing the updated player to file
+        FileOutputStream out = new FileOutputStream("Player.txt");
+        ObjectOutputStream oos = new ObjectOutputStream(out);
+        oos.writeObject(players);
+        oos.close();
+        JOptionPane.showMessageDialog(null, "Update success.");
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Some error happened.");
+    }
+    }//GEN-LAST:event_update_btnActionPerformed
+
+    private void DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteActionPerformed
+            int selectedIndex = Choose_Player_Box.getSelectedIndex();
+            if (selectedIndex != -1) { // make sure a player is selected
+                Player selectedPlayer = players.get(selectedIndex);
+                players.remove(selectedIndex);
+                try {
+                    FileOutputStream out = new FileOutputStream("Player.txt");
+                    ObjectOutputStream oos = new ObjectOutputStream(out);
+                    oos.writeObject(players);
+                    oos.close();
+                    JOptionPane.showMessageDialog(null, "Deleted successfully.");
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(null, "Some error happened.");
+                }
+                // update the combo box with the remaining players
+                String[] playerArray = new String[players.size()];
+                for (int i = 0; i < players.size(); i++) {
+                    playerArray[i] = players.get(i).getName();
+                }
+                Choose_Player_Box.setModel(new DefaultComboBoxModel<>(playerArray));
+                // update the selected index variable
+                if (selectedIndex < playerArray.length) {
+                    Choose_Player_Box.setSelectedIndex(selectedIndex);
+                } else {
+                    Choose_Player_Box.setSelectedIndex(playerArray.length - 1);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select a player to delete.");
+            }
+        
+    }//GEN-LAST:event_DeleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -660,7 +689,6 @@ Choose_Player_Box.addActionListener(new ActionListener() {
     private javax.swing.JTextField D_Number;
     private javax.swing.JButton Delete;
     private javax.swing.JPanel Delete_Panel;
-    private javax.swing.JButton Delete_btn;
     private javax.swing.JPanel Home_Panel;
     private javax.swing.JButton Home_btn;
     private javax.swing.JPanel Infor_Panel;
@@ -673,8 +701,6 @@ Choose_Player_Box.addActionListener(new ActionListener() {
     private javax.swing.JLabel PlayerNameLabel;
     private javax.swing.JButton Save_btn;
     private javax.swing.JPanel Update_Panel;
-    private javax.swing.JButton Update_btn;
-    private javax.swing.JButton jButton1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -685,5 +711,6 @@ Choose_Player_Box.addActionListener(new ActionListener() {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JTextField nameInput;
+    private javax.swing.JButton update_btn;
     // End of variables declaration//GEN-END:variables
 }
