@@ -6,6 +6,7 @@ package com.mycompany.vb;
 
 import java.awt.CardLayout;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -18,6 +19,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,7 +61,10 @@ public class vebo extends javax.swing.JFrame {
         }catch (Exception f){
             JOptionPane.showMessageDialog(null, "Some error happened when open the file.");
         }
-       
+       this.setTitle("VEBO88");
+       URL urlIcon = vebo.class.getResource("epl_icon.jpg");
+       Image img = Toolkit.getDefaultToolkit().createImage(urlIcon);
+       this.setIconImage(img);
 
     }
 
@@ -109,7 +114,7 @@ public class vebo extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         Remove_Table_Btn = new javax.swing.JButton();
         Home_Panel = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
+        Home_label = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -174,7 +179,10 @@ public class vebo extends javax.swing.JFrame {
         Main_Panel.setLayout(new java.awt.CardLayout());
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Welcome to Vebo88");
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/mycompany/vb/ca_do_bong_da (1).png"))); // NOI18N
+        jLabel5.setMaximumSize(new java.awt.Dimension(663, 279));
+        jLabel5.setMinimumSize(new java.awt.Dimension(663, 279));
+        jLabel5.setPreferredSize(new java.awt.Dimension(663, 279));
         Main_Panel.add(jLabel5, "card6");
 
         Add_Panel.setBackground(new java.awt.Color(51, 51, 51));
@@ -320,21 +328,27 @@ public class vebo extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(Infor_PanelLayout.createSequentialGroup()
                         .addGroup(Infor_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(D_Name, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addGap(71, 71, 71)
+                            .addComponent(jLabel1)
+                            .addComponent(D_Name, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(Infor_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(D_Age, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addGap(80, 80, 80)
+                            .addGroup(Infor_PanelLayout.createSequentialGroup()
+                                .addGap(197, 197, 197)
+                                .addComponent(Delete)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(Infor_PanelLayout.createSequentialGroup()
+                                .addGap(60, 60, 60)
+                                .addGroup(Infor_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(D_Age, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                                .addGroup(Infor_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(D_Country, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel6))
+                                .addGap(28, 28, 28)))
                         .addGroup(Infor_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(D_Country, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6)
-                            .addComponent(Delete))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
-                        .addGroup(Infor_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addComponent(D_Number, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(D_Number, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8))
+                        .addContainerGap())))
         );
         Infor_PanelLayout.setVerticalGroup(
             Infor_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -362,7 +376,7 @@ public class vebo extends javax.swing.JFrame {
 
         Main_Panel.add(Infor_Panel, "card3");
 
-        Search_panel.setBackground(new java.awt.Color(255, 255, 0));
+        Search_panel.setBackground(new java.awt.Color(255, 204, 204));
 
         Search_Box.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -400,54 +414,52 @@ public class vebo extends javax.swing.JFrame {
         Search_panel.setLayout(Search_panelLayout);
         Search_panelLayout.setHorizontalGroup(
             Search_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE)
             .addGroup(Search_panelLayout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addGap(24, 24, 24)
                 .addGroup(Search_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(Search_panelLayout.createSequentialGroup()
                         .addComponent(Search_Box, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(51, 51, 51)
+                        .addGap(62, 62, 62)
                         .addComponent(Search_btn)
                         .addGap(55, 55, 55)
                         .addComponent(Remove_Table_Btn))
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(219, Short.MAX_VALUE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         Search_panelLayout.setVerticalGroup(
             Search_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Search_panelLayout.createSequentialGroup()
-                .addGap(68, 68, 68)
+                .addGap(25, 25, 25)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(Search_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Search_Box, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Search_btn)
                     .addComponent(Remove_Table_Btn))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE))
         );
 
         Main_Panel.add(Search_panel, "card2");
 
         Home_Panel.setBackground(new java.awt.Color(255, 199, 255));
 
-        jLabel7.setText("Welcome to vebo88. World Football Player Information Record System");
+        Home_label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Home_label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/mycompany/vb/ca_do_bong_da.png"))); // NOI18N
+        Home_label.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout Home_PanelLayout = new javax.swing.GroupLayout(Home_Panel);
         Home_Panel.setLayout(Home_PanelLayout);
         Home_PanelLayout.setHorizontalGroup(
             Home_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(Home_PanelLayout.createSequentialGroup()
-                .addGap(146, 146, 146)
-                .addComponent(jLabel7)
-                .addContainerGap(146, Short.MAX_VALUE))
+            .addComponent(Home_label, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         Home_PanelLayout.setVerticalGroup(
             Home_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Home_PanelLayout.createSequentialGroup()
-                .addGap(84, 84, 84)
-                .addComponent(jLabel7)
-                .addContainerGap(179, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(Home_label, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE))
         );
 
         Main_Panel.add(Home_Panel, "card7");
@@ -766,6 +778,7 @@ Choose_Player_Box.addActionListener(new ActionListener() {
     private javax.swing.JButton Delete;
     private javax.swing.JPanel Home_Panel;
     private javax.swing.JButton Home_btn;
+    private javax.swing.JLabel Home_label;
     private javax.swing.JPanel Infor_Panel;
     private javax.swing.JButton Infor_btn;
     private javax.swing.JPanel Main_Panel;
@@ -786,7 +799,6 @@ Choose_Player_Box.addActionListener(new ActionListener() {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
