@@ -29,8 +29,11 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.ListModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -38,7 +41,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class vebo extends javax.swing.JFrame {
     /**
-     * Creates new form vebo
+     * Creates new form vebob
      */
      String age;
      String name;
@@ -46,7 +49,6 @@ public class vebo extends javax.swing.JFrame {
      int Pl_Number;
      ArrayList<Player> players = new ArrayList<Player>();
      ArrayList<Player> S_Player = new ArrayList<Player>();
-
     public vebo() {
         initComponents();
         try{
@@ -100,11 +102,12 @@ public class vebo extends javax.swing.JFrame {
         update_btn = new javax.swing.JButton();
         Delete = new javax.swing.JButton();
         Search_panel = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        Search_Box = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         Search_btn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        jTable1 = new javax.swing.JTable();
+        Remove_Table_Btn = new javax.swing.JButton();
         Home_Panel = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
 
@@ -144,7 +147,7 @@ public class vebo extends javax.swing.JFrame {
         Button_Panel.setLayout(Button_PanelLayout);
         Button_PanelLayout.setHorizontalGroup(
             Button_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(Button_PanelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Button_PanelLayout.createSequentialGroup()
                 .addComponent(Add_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34)
                 .addComponent(Home_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -156,13 +159,13 @@ public class vebo extends javax.swing.JFrame {
         Button_PanelLayout.setVerticalGroup(
             Button_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Button_PanelLayout.createSequentialGroup()
-                .addContainerGap(41, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(Button_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Add_btn)
                     .addComponent(Infor_btn)
                     .addComponent(Home_btn)
                     .addComponent(Search))
-                .addGap(36, 36, 36))
+                .addGap(33, 33, 33))
         );
 
         getContentPane().add(Button_Panel, java.awt.BorderLayout.PAGE_START);
@@ -261,7 +264,7 @@ public class vebo extends javax.swing.JFrame {
                     .addComponent(P_Number, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(50, 50, 50)
                 .addComponent(Save_btn)
-                .addContainerGap(69, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         Main_Panel.add(Add_Panel, "card4");
@@ -354,16 +357,16 @@ public class vebo extends javax.swing.JFrame {
                 .addGroup(Infor_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(update_btn)
                     .addComponent(Delete))
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         Main_Panel.add(Infor_Panel, "card3");
 
         Search_panel.setBackground(new java.awt.Color(255, 255, 0));
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        Search_Box.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                Search_BoxActionPerformed(evt);
             }
         });
 
@@ -376,12 +379,22 @@ public class vebo extends javax.swing.JFrame {
             }
         });
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Name", "Age", "Country", "Number"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        Remove_Table_Btn.setText("Remove");
+        Remove_Table_Btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Remove_Table_BtnActionPerformed(evt);
+            }
         });
-        jScrollPane1.setViewportView(jList1);
 
         javax.swing.GroupLayout Search_panelLayout = new javax.swing.GroupLayout(Search_panel);
         Search_panel.setLayout(Search_panelLayout);
@@ -391,12 +404,14 @@ public class vebo extends javax.swing.JFrame {
                 .addGap(42, 42, 42)
                 .addGroup(Search_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(Search_panelLayout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Search_Box, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(51, 51, 51)
-                        .addComponent(Search_btn))
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 591, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(30, Short.MAX_VALUE))
+                        .addComponent(Search_btn)
+                        .addGap(55, 55, 55)
+                        .addComponent(Remove_Table_Btn))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(219, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE)
         );
         Search_panelLayout.setVerticalGroup(
             Search_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -405,11 +420,11 @@ public class vebo extends javax.swing.JFrame {
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(Search_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Search_btn))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                    .addComponent(Search_Box, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Search_btn)
+                    .addComponent(Remove_Table_Btn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         Main_Panel.add(Search_panel, "card2");
@@ -432,7 +447,7 @@ public class vebo extends javax.swing.JFrame {
             .addGroup(Home_PanelLayout.createSequentialGroup()
                 .addGap(84, 84, 84)
                 .addComponent(jLabel7)
-                .addContainerGap(216, Short.MAX_VALUE))
+                .addContainerGap(179, Short.MAX_VALUE))
         );
 
         Main_Panel.add(Home_Panel, "card7");
@@ -669,18 +684,40 @@ Choose_Player_Box.addActionListener(new ActionListener() {
     }//GEN-LAST:event_SearchActionPerformed
 
     private void Search_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Search_btnActionPerformed
-        name = nameInput.getText().trim();
+        S_Player.clear();
+        name = Search_Box.getText().trim();
         for (Player player : players) {
             if(player.getName().contains(name)){
                 S_Player.add(player);
             }
         }
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        ArrayList<Player> list = S_Player;
+        Object rowData[] = new Object[4];
+        try {
+            for(int i = 0; i<list.size();i++){
+            rowData[0] = list.get(i).getName();
+            rowData[1] = list.get(i).getAge();
+            rowData[2] = list.get(i).getCountry();
+            rowData[3] = list.get(i).getPl_Number();
+            model.addRow(rowData);
+            }
+            list.clear();
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(null, "No player found");
+}
+
     }//GEN-LAST:event_Search_btnActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void Search_BoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Search_BoxActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_Search_BoxActionPerformed
 
+    private void Remove_Table_BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Remove_Table_BtnActionPerformed
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        
+    }//GEN-LAST:event_Remove_Table_BtnActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -737,8 +774,10 @@ Choose_Player_Box.addActionListener(new ActionListener() {
     private javax.swing.JLabel PlayerAgeLabel;
     private javax.swing.JLabel PlayerCountryLabel;
     private javax.swing.JLabel PlayerNameLabel;
+    private javax.swing.JButton Remove_Table_Btn;
     private javax.swing.JButton Save_btn;
     private javax.swing.JButton Search;
+    private javax.swing.JTextField Search_Box;
     private javax.swing.JButton Search_btn;
     private javax.swing.JPanel Search_panel;
     private com.toedter.calendar.JDateChooser jDateChooser1;
@@ -749,9 +788,8 @@ Choose_Player_Box.addActionListener(new ActionListener() {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField nameInput;
     private javax.swing.JButton update_btn;
     // End of variables declaration//GEN-END:variables
