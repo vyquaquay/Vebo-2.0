@@ -614,15 +614,10 @@ public class vebo extends javax.swing.JFrame {
             
             playerArray[i] = players.get(i).getName();
         }
-        // Choose_Player_Box.setModel(new javax.swing.DefaultComboBoxModel<>(playerArray) {
-            
-        // });;
-
  playerArray = new String[players.size()];
 for(int i = 0; i < players.size(); i++){
     playerArray[i] = players.get(i).getName();
 }
-// Choose_Player_Box.setModel(new DefaultComboBoxModel<>(playerArray));
 Choose_Player_Box.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
         int selectedIndex = Choose_Player_Box.getSelectedIndex();
