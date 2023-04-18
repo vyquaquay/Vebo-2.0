@@ -555,6 +555,7 @@ public class vebo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Only accept number input");
             return;
         }
+        
         Player player = new Player( age, name, country, pl_Number); 
         players.add(player);
         try {
