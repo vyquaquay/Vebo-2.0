@@ -180,9 +180,6 @@ public class vebo extends javax.swing.JFrame {
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/mycompany/vb/ca_do_bong_da (1).png"))); // NOI18N
-        jLabel5.setMaximumSize(new java.awt.Dimension(663, 279));
-        jLabel5.setMinimumSize(new java.awt.Dimension(663, 279));
-        jLabel5.setPreferredSize(new java.awt.Dimension(663, 279));
         Main_Panel.add(jLabel5, "card6");
 
         Add_Panel.setBackground(new java.awt.Color(51, 51, 51));
@@ -400,7 +397,15 @@ public class vebo extends javax.swing.JFrame {
             new String [] {
                 "Name", "Age", "Country", "Number"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         Remove_Table_Btn.setText("Remove");
