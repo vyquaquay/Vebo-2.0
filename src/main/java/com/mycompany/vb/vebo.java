@@ -717,7 +717,7 @@ Choose_Player_Box.addActionListener(new ActionListener() {
             }
             list.clear();
 } catch (Exception e) {
-    JOptionPane.showMessageDialog(null, "No player found");
+    JOptionPane.showMessageDialog(null, "Some error occur!!!!");
 }
 
     }//GEN-LAST:event_Search_btnActionPerformed
